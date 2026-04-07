@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Library | BNI MCM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .media-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        @media (min-width: 768px) {
+            .media-grid { grid-template-columns: 1fr 1fr; }
+        }
+        
+        .media-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .media-card video, .media-card audio {
+            width: 100%;
+            border-radius: 12px;
+            background: #000;
+        }
+        .media-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .media-meta h4 { margin: 0; font-size: 1rem; }
+        .media-meta span { font-size: 0.8rem; color: var(--text-muted); }
+        
+        .media-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        .btn-icon {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="dashboard.html" class="btn-back">
+        <i class="fas fa-chevron-left"></i> Back to Dashboard
+    </a>
+            <span style="font-weight: 600;">Media Library</span>
+        </div>
+    </nav>
+
+    <div class="container animate-fade" style="padding-top: 20px; padding-bottom: 50px;">
+        
+        <!-- Filters -->
+        <div class="glass-card" style="margin-bottom: 20px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                    <label style="font-size: 0.75rem;">Member</label>
+                    <select id="mediaFilterMember" class="form-control" style="margin-bottom:0;">
+                        <option value="all">All Members</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem;">Week</label>
+                    <select id="mediaFilterWeek" class="form-control" style="margin-bottom:0;">
+                        <option value="all">All Weeks</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Media Grid -->
+        <div id="mediaGrid" class="media-grid">
+            <!-- Dynamically populated -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="mediaEmpty" style="display:none; text-align:center; padding: 60px 20px;">
+            <i class="fas fa-photo-video fa-3x" style="color: var(--glass-border); margin-bottom: 15px;"></i>
+            <p style="color: var(--text-muted);">No recordings found matching your filters.</p>
+        </div>
+
+    </div>
+
+        <footer class="main-footer">
+    <div class="bni-brand" style="margin-bottom: 10px; font-size: 1.1rem;">BNI MCM Tracker</div>
+    <div class="footer-text">
+        &copy; 2026 BNI Membership Committee. All rights reserved.<br>
+        Optimized for Performance Accountability and Transparency.
+    </div>
+</footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/media.js"></script>
+</body>
+</html>

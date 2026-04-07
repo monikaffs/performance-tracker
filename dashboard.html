@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | BNI MCM Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <style>
+        body {
+    background: linear-gradient(135deg, #0f172a, #020617, #111827);
+    min-height: 100vh;
+    color: white;
+}
+
+.glass-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 20px;
+    transition: 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+}
+
+.nav-logo {
+    text-decoration: none !important;
+}
+
+.nav-logo::after,
+.nav-logo::before {
+    display: none !important;
+}
+.btn-logout {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: var(--primary);
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(230,57,70,0.4);
+}
+.grid-4 .glass-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.grid-4 .glass-card p {
+    opacity: 0.7;
+    letter-spacing: 1px;
+}
+.grid-3 .glass-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.grid-3 .glass-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    background: rgba(255,255,255,0.08);
+}
+.animate-fade {
+    animation: fadeUp 0.6s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+    </style>
+
+    <!-- NAV BAR (Fix #4, #6) -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="dashboard.html" class="nav-logo" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                <div class="logo-box"><i class="fas fa-chart-pie"></i></div>
+<span style="font-weight: 700; font-size: 1.1rem; color: #fff;">
+    BNI<span style="color:var(--primary)">MCM</span> Tracker
+</span>
+            </a>
+<div class="user-meta" style="display:flex; align-items:center; gap:12px;">
+    
+    <span id="navUserName" style="font-weight:600;"></span>
+    
+    <span id="navUserRole" style="
+        font-size:0.75rem;
+        padding:4px 10px;
+        border-radius:20px;
+        background: rgba(255,255,255,0.08);
+        color: var(--primary);
+        text-transform: uppercase;
+    "></span>
+
+    <button onclick="logout()" class="btn-logout">
+        <i class="fas fa-sign-out-alt"></i>
+    </button>
+
+</div>
+        </div>
+    </nav>
+
+    <main class="container animate-fade">
+        <!-- HEADER (Fix #2, #7) -->
+        <header class="dashboard-header">
+            <h2 style="font-size: 1.8rem; letter-spacing: -1px;">MCM Performance Tracker</h2>
+            <p style="color: var(--text-dim); font-size: 0.9rem;">Membership Committee Performance • Week <span id="displayWeek">--</span></p>
+        </header>
+
+        <!-- ADMIN STATS (Visible to Admins) -->
+        <div id="adminStats" class="grid-4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;">
+            <div class="glass-card">
+                <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Active Members</p>
+                <h3 id="statMembers" style="font-size: 1.8rem; margin-top: 5px;">0</h3>
+            </div>
+            <div class="glass-card">
+                <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Total Referrals</p>
+                <h3 id="statReferrals" style="font-size: 1.8rem; margin-top: 5px; color: var(--primary);">0</h3>
+            </div>
+            <div class="glass-card">
+                <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Attendance Avg</p>
+                <h3 id="statAttendance" style="font-size: 1.8rem; margin-top: 5px;">0%</h3>
+            </div>
+            <div class="glass-card">
+                <p style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase;">Recordings</p>
+                <h3 id="statMedia" style="font-size: 1.8rem; margin-top: 5px;">0</h3>
+            </div>
+        </div>
+
+        <!-- QUICK ACTIONS (Fix #8 - Eye Catching Icons) -->
+        <h4 style="margin-bottom: 20px; font-size: 1rem; color: var(--text-dim);">Management Modules</h4>
+        <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            <a href="weekly-entry.html" class="glass-card" style="text-decoration: none; display: flex; align-items: center; gap: 20px;">
+                <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); color: #10b981; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div>
+                    <p style="color: #fff; font-weight: 600;">Weekly Entry</p>
+                    <p style="color: var(--text-dim); font-size: 0.75rem;">Add performance data</p>
+                </div>
+            </a>
+
+            <a href="members.html" class="glass-card" style="text-decoration: none; display: flex; align-items: center; gap: 20px;">
+                <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(69, 123, 157, 0.1); color: #457b9d; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div>
+                    <p style="color: #fff; font-weight: 600;">Members</p>
+                    <p style="color: var(--text-dim); font-size: 0.75rem;">Manage committee</p>
+                </div>
+            </a>
+
+            <a href="analytics.html" class="glass-card" style="text-decoration: none; display: flex; align-items: center; gap: 20px;">
+                <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(230, 57, 70, 0.1); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div>
+                    <p style="color: #fff; font-weight: 600;">Leaderboard</p>
+                    <p style="color: var(--text-dim); font-size: 0.75rem;">Rankings & Trends</p>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <!-- UNIVERSAL FOOTER (Fix #3, #7) -->
+    <footer class="main-footer">
+        <div class="container">
+            <p style="font-weight: 600; color: var(--primary); margin-bottom: 5px;">BNI MCM Tracker</p>
+            <p style="color: var(--text-dim); font-size: 0.8rem;">Membership Committee Performance Tracker</p>
+            <p style="color: var(--text-dim); font-size: 0.7rem; margin-top: 15px;">&copy; 2025 BNI. For Official Use Only.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

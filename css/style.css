@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #E63946;
+    --primary-hover: #C1121F;
+    --bg-dark: #0B0E14; /* Deeper, more professional dark */
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-heavy: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-main: #F8FAFC;
+    --text-dim: #94A3B8;
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* --- Layout Structure for Sticky Footer --- */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    /* Subtle radial glow in the background */
+    background-image: 
+        radial-gradient(circle at 0% 0%, rgba(230, 57, 70, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 100% 100%, rgba(69, 123, 157, 0.05) 0%, transparent 40%);
+    color: var(--text-main);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Container for all pages */
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- THE LOGO: Fix #1 (Pure White) --- */
+.logo-box {
+    width: 38px;
+    height: 38px;
+    background: #FFFFFF !important; /* FORCED WHITE */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary) !important; /* Red Icon on White background */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* --- NAV BAR --- */
+.navbar {
+    background: rgba(11, 14, 20, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- PRETTY GLASS CARDS: Fix #4, #5 --- */
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.glass-card:hover {
+    border-color: rgba(230, 57, 70, 0.4);
+    transform: translateY(-5px);
+}
+
+/* --- BUTTONS --- */
+.btn-primary {
+    background: linear-gradient(135deg, #E63946 0%, #9B2226 100%);
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(230, 57, 70, 0.4);
+}
+
+/* --- MEDIA BUTTONS: Fix #2 (Record CSS) --- */
+.btn-media {
+    background: var(--glass-heavy);
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-media:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: white;
+}
+
+.btn-media.recording {
+    background: var(--primary);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* --- BACK BUTTON --- */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.btn-back:hover {
+    color: var(--primary);
+    transform: translateX(-5px);
+}
+
+/* --- STICKY FOOTER: Fix #6 --- */
+.main-footer {
+    margin-top: auto; /* Pushes footer to bottom */
+    padding: 30px 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid var(--glass-border);
+}
+
+.footer-text {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+/* --- TABLES --- */
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; padding: 15px; font-size: 0.75rem; color: var(--text-dim); border-bottom: 1px solid var(--glass-border); }
+td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+
+.toggle-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 18px 22px;
+    border-radius: 18px;
+    border: 1px solid var(--glass-border);
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    backdrop-filter: blur(12px);
+}
+
+.toggle-box:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background: rgba(255,255,255,0.08);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 20px;
+}
+.glass-card {
+    padding: 25px;
+}
+.input-block {
+    width: 100%;
+}
+
+.premium-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-size: 0.95rem;
+}
+
+.glass-card {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 22px;
+    padding: 20px;
+}
+
+.btn-media {
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.05);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-media:hover {
+    background: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+#recStatus {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+

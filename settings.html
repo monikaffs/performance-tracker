@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Settings | BNI MCM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .settings-section {
+            margin-bottom: 30px;
+        }
+        .settings-section h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .points-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .point-input-group {
+            background: rgba(255,255,255,0.03);
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+        .point-input-group label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+        .point-input-group input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="dashboard.html" class="btn-back">
+        <i class="fas fa-chevron-left"></i> Back to Dashboard
+    </a>
+            <span style="font-weight: 600;">System Settings</span>
+        </div>
+    </nav>
+
+    <div class="container animate-fade" style="padding-top: 20px; padding-bottom: 50px;">
+        
+        <form id="settingsForm">
+            <!-- 1. Cycle Configuration -->
+            <div class="glass-card settings-section">
+                <h4><i class="fas fa-calendar-alt"></i> Cycle Config</h4>
+                <div class="grid-2">
+                    <div>
+                        <label>Total Weeks in Cycle</label>
+                        <input type="number" id="totalWeeks" class="form-control" value="25" min="1">
+                    </div>
+                    <div>
+                        <label>Current Week</label>
+                        <select id="currentWeek" class="form-control">
+                            <!-- Populated via JS -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Scoring System -->
+            <div class="glass-card settings-section">
+                <h4><i class="fas fa-star"></i> Scoring Weights (Points)</h4>
+                <div class="points-grid">
+                    <div class="point-input-group">
+                        <label>Attendance</label>
+                        <input type="number" id="score_attendance" value="5">
+                    </div>
+                    <div class="point-input-group">
+                        <label>Referral (Each)</label>
+                        <input type="number" id="score_referral" value="3">
+                    </div>
+                    <div class="point-input-group">
+                        <label>Visitor (Each)</label>
+                        <input type="number" id="score_visitor" value="5">
+                    </div>
+                    <div class="point-input-group">
+                        <label>1-to-1 (Each)</label>
+                        <input type="number" id="score_oneToOne" value="3">
+                    </div>
+                    <div class="point-input-group">
+                        <label>Testimonial</label>
+                        <input type="number" id="score_testimonial" value="2">
+                    </div>
+                    <div class="point-input-group">
+                        <label>30 Sec (On Time)</label>
+                        <input type="number" id="score_thirtySec" value="3">
+                    </div>
+                    <div class="point-input-group">
+                        <label>Specific Ask</label>
+                        <input type="number" id="score_specificAsk" value="4">
+                    </div>
+                    <div class="point-input-group">
+                        <label>Task Completed</label>
+                        <input type="number" id="score_task" value="5">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" id="saveSettingsBtn" class="btn btn-primary" style="width: 100%; padding: 18px;">
+                <i class="fas fa-save"></i> UPDATE GLOBAL SETTINGS
+            </button>
+        </form>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                Changes here affect the Leaderboard and Analytics immediately.
+            </p>
+        </div>
+    </div>
+
+        <footer class="main-footer">
+    <div class="bni-brand" style="margin-bottom: 10px; font-size: 1.1rem;">BNI MCM Tracker</div>
+    <div class="footer-text">
+        &copy; 2026 BNI Membership Committee. All rights reserved.<br>
+        Optimized for Performance Accountability and Transparency.
+    </div>
+</footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>
