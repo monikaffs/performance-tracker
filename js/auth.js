@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('password').value;
 
         try {
-            // 🔐 Login with Firebase Auth
+            // Login with Firebase Auth
             const userCred = await auth.signInWithEmailAndPassword(email, password);
             const user = userCred.user;
 
-            // 📥 Get user data from Firestore
+            // Get user data from Firestore
             const doc = await db.collection('users').doc(user.uid).get();
 
             if (!doc.exists) {
@@ -23,12 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const userData = doc.data();
 
-            // ✏️ Update name only (optional)
+            // Update name only (optional)
             await db.collection('users').doc(user.uid).set({
                 name: fullName
             }, { merge: true });
 
-            // 🚀 Redirect
+            // Redirect
             window.location.href = 'dashboard.html';
 
         } catch (err) {
@@ -37,7 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function logout() {
-    auth.signOut();
-    window.location.href = "index.html";
+async function logout() {
+    try {
+        await auth.signOut();   // wait for Firebase logout
+        localStorage.clear();   // clear cached user data
+        window.location.href = "index.html";
+    } catch (error) {
+        console.error("Logout error:", error);
+        window.location.href = "index.html";
+    }
 }
