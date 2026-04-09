@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!doc.exists) {
                 alert("User not registered in system");
+            
+                await auth.signOut();          //logout from Firebase
+                localStorage.clear();          //clear cached data
+            
+                window.location.href = "index.html"; //redirect to login
                 return;
             }
 
