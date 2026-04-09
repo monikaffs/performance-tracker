@@ -1,33 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initial Auth Check
     checkAuth(async (user, userData) => {
-        
-        // ✅ Requirement #6: Show Monika's name and role in Navbar
+
+
+        // Hide loader
+        //const loader = document.getElementById('pageLoader');
+        //if (loader) loader.style.display = 'none';
+
+        // 🔥 SHOW UI IMMEDIATELY
+        document.body.style.visibility = 'visible';
+
+        const loader = document.getElementById('pageLoader');
+        if (loader) loader.style.display = 'none';
+
+
+
+        //document.body.style.visibility = 'visible'; // will delete immediately
+        // Requirement #6: Show Monika's name and role in Navbar
         const nameEl = document.getElementById('navUserName');
         const roleEl = document.getElementById('navUserRole');
         if (nameEl) nameEl.textContent = userData.name || "User";
         if (roleEl) roleEl.textContent = userData.role ? userData.role.toUpperCase() : "MEMBER";
 
-        // ✅ Update Dashboard Header
+        // Update Dashboard Header
         const displayWeek = document.getElementById('displayWeek');
-        
-        // ✅ Load Settings (Current Week)
-        try {
-            const settingsDoc = await db.collection('settings').doc('config').get();
-            if (settingsDoc.exists) {
-                const settingsData = settingsDoc.data();
-                if (displayWeek) displayWeek.textContent = settingsData.currentWeek || "1";
-            }
-        } catch (e) {
-            console.error("Settings error:", e);
-        }
 
-        // ✅ Role-Based Dashboard Logic (Requirement #2)
+        db.collection('settings').doc('config').get()
+            .then(settingsDoc => {
+                if (settingsDoc.exists) {
+                    const settingsData = settingsDoc.data();
+                    if (displayWeek) displayWeek.textContent = settingsData.currentWeek || "1";
+                }
+            })
+            .catch(e => console.error("Settings error:", e));
+
+
+
+
+        // Role-Based Dashboard Logic (Requirement #2)
         if (userData.role === 'admin') {
             // User is Admin (Monika) -> Show Stats
             const adminStats = document.getElementById('adminStats');
             if (adminStats) adminStats.style.display = 'grid';
-            loadAdminStats();
+            // loadAdminStats();
+            setTimeout(() => loadAdminStats(), 0);
         } else {
             // User is Member -> Hide Admin boxes, Show personal table
             const adminStats = document.getElementById('adminStats');
@@ -48,7 +64,11 @@ async function loadAdminStats() {
         if (statMembers) statMembers.textContent = membersSnap.size;
 
         // 2. Performance Stats from weekly_entries
-        const entriesSnap = await db.collection('weekly_entries').get();
+        //const entriesSnap = await db.collection('weekly_entries').get();
+        const entriesSnap = await db.collection('weekly_entries')
+            .limit(50)
+            .get();
+
         let totalReferrals = 0;
         let attendanceCount = 0;
         
@@ -100,8 +120,8 @@ async function loadMemberPerformance(uid) {
                     <td>Week ${data.weekNumber}</td>
                     <td>${data.attendance ? '✅' : '❌'}</td>
                     <td>${data.referrals || 0}</td>
-                    <td>${data.oneToOne || 0}</td>
-                    <td>${data.visitors || 0}</td>
+                    <td>${data.oneToOneCount || 0}</td>
+                    <td>${data.visitorsInvited || 0}</td>
                     <td style="font-weight:bold; color:var(--primary);">Calculated...</td>
                 </tr>
             `;

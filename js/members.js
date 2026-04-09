@@ -1,10 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Check Auth and set Navbar Name
     checkAuth((user, userData) => {
+
         const navName = document.getElementById('navUserName');
-        if (navName) navName.textContent = userData.name || "Monika";
-        
-        loadMembers(); // Load real data
+        if (navName) navName.textContent = userData.name;
+
+        const navRole = document.getElementById('navUserRole');
+        if (navRole) navRole.textContent = (userData.role || 'member').toUpperCase();
+
+        // 🔴 BLOCK NON-ADMINS
+        if ((userData.role || 'member') !== 'admin') {
+            alert("Access Denied: Admins only");
+            window.location.href = 'dashboard.html';
+            return;
+        }
+
+        // ✅ SHOW PAGE ONLY FOR ADMIN
+        document.body.style.visibility = 'visible';
+
+        // ✅ ONLY ADMIN CAN CONTINUE
+        loadMembers();
     });
 
     // 2. Handle Form Submission
@@ -134,5 +149,9 @@ async function seedDummyMembers() {
 }
 
 function logout() {
-    auth.signOut().then(() => window.location.href = 'index.html');
+    // auth.signOut().then(() => window.location.href = 'index.html'); // will delete this line
+    auth.signOut().then(() => {
+    localStorage.removeItem('userData'); // clear cache
+    window.location.href = 'index.html';
+});
 }
