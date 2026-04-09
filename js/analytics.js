@@ -2,11 +2,16 @@ console.log("Analytics loaded");
 
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth(async (user, userData) => {
-       /* if (userData.role !== 'admin') {
+        const role = userData.role || "member";
+
+        // BLOCK NON-ADMINS
+        if (role !== 'admin') {
             window.location.href = 'dashboard.html';
             return;
-        } */
-        
+        }
+        // SHOW PAGE ONLY FOR ADMIN
+        document.body.style.visibility = 'visible';
+    
         const settings = await loadAnalyticsSettings();
         loadAnalyticsData(settings.scoring);
     });
@@ -70,9 +75,6 @@ async function loadAnalyticsData(weights) {
 }
 
 function renderLeaderboard(scoresObj) {
-    //const list = document.getElementById('leaderboardList'); //replaced by below lines
-    //list.innerHTML = ''; //replaced by below lines
-
 
     const list = document.getElementById('leaderboardList');
     if (!list) {
@@ -80,8 +82,6 @@ function renderLeaderboard(scoresObj) {
         return;
     }
     list.innerHTML = '';
-
-
 
     // Convert to array and sort by score
     const sorted = Object.values(scoresObj).sort((a, b) => b.totalScore - a.totalScore);
@@ -157,7 +157,6 @@ function renderTrendsChart(trends) {
 }
 
 function renderDistributionChart(trends) {
-    //const ctx = document.getElementById('distributionChart').getContext('2d');
 
     const canvas = document.getElementById('distributionChart');
     if (!canvas) {
