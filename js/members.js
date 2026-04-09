@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navRole) navRole.textContent = (userData.role || 'member').toUpperCase();
 
         // 🔴 BLOCK NON-ADMINS
-        if (userData.role !== 'admin') {
+        if ((userData.role || 'member') !== 'admin') {
             alert("Access Denied: Admins only");
             window.location.href = 'dashboard.html';
             return;
