@@ -300,7 +300,7 @@ textarea.form-input {
                 <span style="font-weight: 700; font-size: 1.1rem; color: #fff;">BNI<span style="color:var(--primary)">MCM</span> Tracker</span>
             </a>
             <div class="user-meta" style="display:flex; align-items:center; gap:12px;">
-                <span id="navUserName" style="font-weight:600;">Monika</span>
+                <span id="navUserName" style="font-weight:600;"></span>
                 <button onclick="logout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
@@ -338,8 +338,8 @@ textarea.form-input {
                     </div>
                     <div class="field-group">
                         <label>Member Name</label>
-                        <input type="text" id="memberName" class="form-input" placeholder="Enter member name" required>
-                        
+                        <select id="memberName" class="form-input" required>
+                            <option value="">Select Member</option>
                         </select>
                     </div>
                 </div>
@@ -397,9 +397,13 @@ textarea.form-input {
                 <video id="vPrev" controls style="width:100%; border-radius:15px; margin-top:15px; display:none;"></video>
             </div>
 
-<button type="submit" class="btn-primary">
+<!-- <button type="submit" class="btn-primary"> -->
+<button type="submit" id="saveBtn" class="btn-primary">
     <i class="fas fa-save"></i> SAVE WEEKLY RECORD
 </button>
+
+
+
         </form>
     </main>
 
@@ -420,5 +424,7 @@ textarea.form-input {
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
     <script src="js/weekly-entry.js"></script>
+
+    
 </body>
 </html>

@@ -1,112 +1,122 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// Firebase Compat Version (STABLE FOR YOUR PROJECT)
 
-// Your web app's Firebase configuration
+// Import Firebase via CDN (already in HTML)
 const firebaseConfig = {
-  apiKey: "AIzaSyD60cktX5bdh0oVUif1nR41r8htlQEtgfg",
-  authDomain: "bni-mcm-tracker.firebaseapp.com",
-  projectId: "bni-mcm-tracker",
-  storageBucket: "bni-mcm-tracker.firebasestorage.app",
-  messagingSenderId: "457959291384",
-  appId: "1:457959291384:web:0e6331f6fa04bb5c9a3e0d"
+  apiKey: "AIzaSyAJjrSMRts29SGn4myP5viFXpNRD7962bA",
+  authDomain: "mcm-tracker-6a3cc.firebaseapp.com",
+  projectId: "mcm-tracker-6a3cc",
+  storageBucket: "mcm-tracker-6a3cc.firebasestorage.app",
+  messagingSenderId: "284372700866",
+  appId: "1:284372700866:web:bdff04a00870f084b2755b"
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-
-
-// Initialize Services
+// Services
 const auth = firebase.auth();
 const db = firebase.firestore();
-const storage = firebase.storage();
-// ... Your Firebase Initialization Keys ...
+// const storage = firebase.storage(); // to be removed
 
-
-// THE CORE AUTH CHECKER (Fix #5, #6)
-const checkAuth = (callback) => {
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            db.collection('users').doc(user.uid).get().then((doc) => {
-                const userData = doc.exists ? doc.data() : { name: "User", role: "member" };
-                
-                // Update Navbar Elements globally
-                const nameEl = document.getElementById('navUserName');
-                const roleEl = document.getElementById('navUserRole');
-                if (nameEl) nameEl.textContent = userData.name;
-                if (roleEl) roleEl.textContent = userData.role;
-
-                callback(user, userData);
-            }).catch(err => console.error("Auth error:", err));
-        } else {
+// AUTH CHECK (GLOBAL)
+/*
+function checkAuth(callback) {
+    auth.onAuthStateChanged(async (user) => {
+        if (!user) {
             window.location.href = 'index.html';
+            return;
         }
-    });
-};
 
-// Global Toast Notification
-function showToast(msg, type = 'success') {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.style.cssText = `position:fixed; bottom:20px; right:20px; padding:15px 25px; border-radius:12px; background:${type==='success'?'#10b981':'#e63946'}; color:white; z-index:9999; animation: slideIn 0.3s ease;`;
-    toast.textContent = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
+        const doc = await db.collection('users').doc(user.uid).get();
+        const userData = doc.exists ? doc.data() : { name: "User", role: "member" };
+
+        callback(user, userData);
+    });
+}
+*/
+
+
+
+
+/* // will discard this whole function
+function checkAuth(callback) {
+    const user = auth.currentUser;
+
+    // ⚡ FAST PATH (cached user)
+    if (user) {
+        db.collection('users').doc(user.uid).get()
+            .then(doc => {
+                const userData = doc.exists ? doc.data() : { name: "User", role: "member" };
+                callback(user, userData);
+            })
+            .catch(() => {
+                window.location.href = 'index.html';
+            });
+
+        return;
+    }
+
+    // 🐢 FALLBACK (first load)
+    auth.onAuthStateChanged(async (user) => {
+        if (!user) {
+            window.location.href = 'index.html';
+            return;
+        }
+
+        const doc = await db.collection('users').doc(user.uid).get();
+        const userData = doc.exists ? doc.data() : { name: "User", role: "member" };
+
+        callback(user, userData);
+    });
+}
+
+*/
+
+
+
+
+
+
+function checkAuth(callback) {
+    auth.onAuthStateChanged(async (user) => {
+        if (!user) {
+            window.location.href = 'index.html';
+            return;
+        }
+
+        // ⚡ TRY CACHE FIRST
+        let userData = JSON.parse(localStorage.getItem('userData'));
+
+        if (userData && userData.uid === user.uid) {
+            callback(user, userData);
+            return;
+        }
+
+        // 🐢 FIRST TIME ONLY
+        const doc = await db.collection('users').doc(user.uid).get();
+        userData = doc.exists ? doc.data() : { name: "User", role: "member" };
+
+        // ✅ SAVE CACHE
+        localStorage.setItem('userData', JSON.stringify({
+            ...userData,
+            uid: user.uid
+        }));
+
+        callback(user, userData);
+    });
 }
 
 
-// // FAKE FIREBASE FOR DEMO MODE
-// const auth = {
-//     onAuthStateChanged: (callback) => {
-//         // Automatically tell the app we are logged in as an Admin
-//         callback({ uid: "demo-user-123" });
-//     },
-//     signOut: () => {
-//         window.location.href = 'index.html';
-//         return Promise.resolve();
-//     },
-//     signInWithEmailAndPassword: (email, password) => {
-//         // Let any login pass
-//         return Promise.resolve({ user: { uid: "demo-user-123" } });
-//     }
-// };
 
-// const db = {
-//     collection: (name) => ({
-//         doc: (id) => ({
-//             get: () => Promise.resolve({
-//                 exists: true,
-//                 data: () => {
-//                     if (name === 'users') return { name: "Demo Admin", role: "admin", status: "active" };
-//                     if (name === 'settings') return { currentWeek: 1, totalWeeks: 25, scoring: {} };
-//                     return {};
-//                 }
-//             }),
-//             set: () => Promise.resolve(),
-//             update: () => Promise.resolve()
-//         }),
-//         where: () => ({
-//             get: () => Promise.resolve({ empty: true, size: 0, forEach: () => {} }),
-//             orderBy: () => ({ get: () => Promise.resolve({ empty: true, forEach: () => {} }) })
-//         }),
-//         orderBy: () => ({ 
-//             get: () => Promise.resolve({ empty: true, forEach: () => {} }) 
-//         }),
-//         add: () => Promise.resolve()
-//     })
-// };
 
-// const storage = {
-//     ref: () => ({ child: () => ({ put: () => Promise.resolve(), getDownloadURL: () => Promise.resolve("demo-url") }) })
-// };
 
-// // Global helper for the bypass
-// const checkAuth = (callback) => {
-//     callback({ uid: "demo-user" }, { name: "Demo Admin", role: "admin", status: "active" });
-// };
 
-// function showToast(message, type = 'success') {
-//     alert(message); // Simple alert instead of toast for demo
-// }
+
+
+
+
+
+// GLOBAL TOAST
+function showToast(msg, type = 'success') {
+    alert(msg);
+}

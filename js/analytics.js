@@ -1,9 +1,11 @@
+console.log("Analytics loaded");
+
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth(async (user, userData) => {
-        if (userData.role !== 'admin') {
+       /* if (userData.role !== 'admin') {
             window.location.href = 'dashboard.html';
             return;
-        }
+        } */
         
         const settings = await loadAnalyticsSettings();
         loadAnalyticsData(settings.scoring);
@@ -19,7 +21,12 @@ async function loadAnalyticsSettings() {
 
 async function loadAnalyticsData(weights) {
     try {
+        console.log("Fetching entries...");
+
         const snapshot = await db.collection('weekly_entries').get();
+
+        console.log("Entries:", snapshot.size);
+
         const memberScores = {}; // Map memberId -> { name, totalScore }
         const weeklyTrends = {}; // Map weekNum -> { referrals, visitors }
 
@@ -63,8 +70,18 @@ async function loadAnalyticsData(weights) {
 }
 
 function renderLeaderboard(scoresObj) {
+    //const list = document.getElementById('leaderboardList'); //replaced by below lines
+    //list.innerHTML = ''; //replaced by below lines
+
+
     const list = document.getElementById('leaderboardList');
+    if (!list) {
+        console.error("leaderboardList not found");
+        return;
+    }
     list.innerHTML = '';
+
+
 
     // Convert to array and sort by score
     const sorted = Object.values(scoresObj).sort((a, b) => b.totalScore - a.totalScore);
@@ -90,7 +107,16 @@ function renderLeaderboard(scoresObj) {
 }
 
 function renderTrendsChart(trends) {
-    const ctx = document.getElementById('trendsChart').getContext('2d');
+    //const ctx = document.getElementById('trendsChart').getContext('2d');
+
+    const canvas = document.getElementById('trendsChart');
+    if (!canvas) {
+        console.error("trendsChart not found");
+        return;
+    }
+    const ctx = canvas.getContext('2d');
+
+
     const weeks = Object.keys(trends).sort((a, b) => a - b);
     const referralData = weeks.map(w => trends[w].referrals);
     const visitorData = weeks.map(w => trends[w].visitors);
@@ -131,7 +157,16 @@ function renderTrendsChart(trends) {
 }
 
 function renderDistributionChart(trends) {
-    const ctx = document.getElementById('distributionChart').getContext('2d');
+    //const ctx = document.getElementById('distributionChart').getContext('2d');
+
+    const canvas = document.getElementById('distributionChart');
+    if (!canvas) {
+        console.error("distributionChart not found");
+        return;
+    }
+    const ctx = canvas.getContext('2d');
+
+
     let totalRef = 0;
     let totalVis = 0;
 
