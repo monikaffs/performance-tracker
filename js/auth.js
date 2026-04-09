@@ -24,9 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const userData = doc.data();
 
             // Update name only (optional)
-            await db.collection('users').doc(user.uid).set({
-                name: fullName
-            }, { merge: true });
+            if (fullName && fullName.trim() !== "") {
+                await db.collection('users').doc(user.uid).set({
+                    name: fullName.trim()
+                }, { merge: true });
+            }
 
             // Redirect
             window.location.href = 'dashboard.html';
