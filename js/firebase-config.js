@@ -1,4 +1,3 @@
-// Firebase Compat Version (STABLE FOR YOUR PROJECT)
 
 // Import Firebase via CDN (already in HTML)
 const firebaseConfig = {
@@ -16,66 +15,8 @@ firebase.initializeApp(firebaseConfig);
 // Services
 const auth = firebase.auth();
 const db = firebase.firestore();
-// const storage = firebase.storage(); // to be removed
 
 // AUTH CHECK (GLOBAL)
-/*
-function checkAuth(callback) {
-    auth.onAuthStateChanged(async (user) => {
-        if (!user) {
-            window.location.href = 'index.html';
-            return;
-        }
-
-        const doc = await db.collection('users').doc(user.uid).get();
-        const userData = doc.exists ? doc.data() : { name: "User", role: "member" };
-
-        callback(user, userData);
-    });
-}
-*/
-
-
-
-
-/* // will discard this whole function
-function checkAuth(callback) {
-    const user = auth.currentUser;
-
-    // ⚡ FAST PATH (cached user)
-    if (user) {
-        db.collection('users').doc(user.uid).get()
-            .then(doc => {
-                const userData = doc.exists ? doc.data() : { name: "User", role: "member" };
-                callback(user, userData);
-            })
-            .catch(() => {
-                window.location.href = 'index.html';
-            });
-
-        return;
-    }
-
-    // 🐢 FALLBACK (first load)
-    auth.onAuthStateChanged(async (user) => {
-        if (!user) {
-            window.location.href = 'index.html';
-            return;
-        }
-
-        const doc = await db.collection('users').doc(user.uid).get();
-        const userData = doc.exists ? doc.data() : { name: "User", role: "member" };
-
-        callback(user, userData);
-    });
-}
-
-*/
-
-
-
-
-
 
 function checkAuth(callback) {
     auth.onAuthStateChanged(async (user) => {
@@ -84,7 +25,7 @@ function checkAuth(callback) {
             return;
         }
 
-        // ⚡ TRY CACHE FIRST
+        // TRY CACHE FIRST
         let userData = JSON.parse(localStorage.getItem('userData'));
 
         if (userData && userData.uid === user.uid) {
@@ -92,11 +33,11 @@ function checkAuth(callback) {
             return;
         }
 
-        // 🐢 FIRST TIME ONLY
+        // FIRST TIME ONLY
         const doc = await db.collection('users').doc(user.uid).get();
         userData = doc.exists ? doc.data() : { name: "User", role: "member" };
 
-        // ✅ SAVE CACHE
+        //  SAVE CACHE
         localStorage.setItem('userData', JSON.stringify({
             ...userData,
             uid: user.uid
@@ -105,16 +46,6 @@ function checkAuth(callback) {
         callback(user, userData);
     });
 }
-
-
-
-
-
-
-
-
-
-
 
 // GLOBAL TOAST
 function showToast(msg, type = 'success') {
