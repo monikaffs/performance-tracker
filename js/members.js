@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (navName) navName.textContent = userData.name;
 
         const navRole = document.getElementById('navUserRole');
-        if (navRole) navRole.textContent = userData.role.toUpperCase();
+        if (navRole) navRole.textContent = (userData.role || 'member').toUpperCase();
 
         // 🔴 BLOCK NON-ADMINS
         if (userData.role !== 'admin') {
