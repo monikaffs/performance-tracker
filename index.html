@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | BNI MCM Tracker</title>
     <!-- Premium Google Font: Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Main Global CSS -->
     <link rel="stylesheet" href="css/style.css">
-    
+
     <style>
         /* Login Page Specific Styling */
         body {
@@ -24,13 +26,20 @@
 
         .login-wrapper {
             width: 100%;
-            max-width: 420px;
+            max-width: 360px;
             animation: fadeInScale 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
         .role-selector {
@@ -47,7 +56,8 @@
         .role-option input {
             position: absolute;
             opacity: 0;
-            width: 0; height: 0;
+            width: 0;
+            height: 0;
         }
 
         .role-box {
@@ -71,7 +81,7 @@
             margin-bottom: 8px;
         }
 
-        .role-option input:checked + .role-box {
+        .role-option input:checked+.role-box {
             background: rgba(230, 57, 70, 0.1);
             border-color: var(--primary);
             color: white;
@@ -92,7 +102,7 @@
         }
 
         .form-input {
-            width: 100%;
+            width: 250px;
             padding: 16px 16px 16px 48px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--card-border);
@@ -120,16 +130,22 @@
         .loader {
             width: 20px;
             height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 0.8s linear infinite;
             display: none;
             margin-left: 10px;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
+
 <body>
 
     <div class="login-wrapper">
@@ -142,7 +158,8 @@
             </div>
 
             <form id="loginForm">
-                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 12px; font-weight: 500;">SIGN IN AS</p>
+                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 12px; font-weight: 500;">SIGN IN AS
+                </p>
                 <div class="role-selector">
                     <label class="role-option">
                         <input type="radio" name="userRole" value="admin" checked>
@@ -160,22 +177,23 @@
                     </label>
                 </div>
 
-                    <div class="form-group" id="nameGroup">
-                        <i class="fas fa-user-tag"></i>
-                        <input type="text" id="fullName" class="form-input" placeholder="Your Full Name" required>
-                    </div>
+                <div class="form-group" id="nameGroup">
+                    <i class="fas fa-user-tag"></i>
+                    <input type="text" id="fullName" class="form-input" placeholder="Your Full Name" required>
+                </div>
 
-                    <div class="form-group">
-                       <i class="fas fa-envelope"></i>
-                       <input type="email" id="email" class="form-input" placeholder="Email Address" required>
-                    </div>
+                <div class="form-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" class="form-input" placeholder="Email Address" required>
+                </div>
 
                 <div class="form-group">
                     <i class="fas fa-lock"></i>
                     <input type="password" id="password" class="form-input" placeholder="Password" required>
                 </div>
 
-                <button type="submit" class="btn-primary" id="loginBtn" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                <button type="submit" class="btn-primary" id="loginBtn"
+                    style="display: flex; justify-content: center; align-items: center; gap: 10px;">
                     <span>Access Dashboard</span>
                     <div class="loader" id="loginLoader"></div>
                 </button>
@@ -190,7 +208,7 @@
         <div class="bni-brand" style="margin-bottom: 8px; font-size: 1rem; opacity: 0.8;">BNI MCM Tracker</div>
         <div class="footer-text">
             Membership Committee Performance Tracker<br>
-            &copy; 2025 BNI. Designed for Industry-Level Excellence.
+            &copy; 2026 BNI. Designed for Industry-Level Excellence.
         </div>
     </footer>
 
@@ -204,7 +222,7 @@
     <script src="js/auth.js"></script>
 
 
-<script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/firebase-config.js"></script>
 
 
     <script>
@@ -216,4 +234,5 @@
         });
     </script>
 </body>
+
 </html>
